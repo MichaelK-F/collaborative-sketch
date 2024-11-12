@@ -1,2 +1,2 @@
 # collaborative-sketch
-Collaborative sketch
+Simple collaborative sketch using firebase.
