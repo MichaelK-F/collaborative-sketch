@@ -8,6 +8,9 @@ firebase.initializeApp(config)
 var pointsData = firebase.database().ref()
 var points = []
 var hslRainbowColor = 1
+const deleteButton = document.getElementById("clearDrawing");
+console.log(localStorage.getItem("deleteDisabled"))
+
 
 function setup() {
     var canvas = createCanvas(windowWidth, windowHeight);
@@ -65,6 +68,30 @@ $('#saveDrawing').on('click', saveDrawing)
 
 function saveDrawing() {
     saveCanvas(window.prompt("Save as", "collaborative sketch"))
+}
+
+if(localStorage.getItem("deleteDisabled")==null) {
+    localStorage.setItem("deleteDisabled", "0");
+}
+
+function deleteDrawing() {
+    if(localStorage.getItem("deleteDisabled")==1) {
+        deleteButton.disabled = true;
+        alert("Please wait for 30 seconds");
+    } else if(localStorage.getItem("deleteDisabled")==0) {
+        console.log("deleting")
+        clearDrawing()
+        localStorage.setItem("deleteDisabled", "1");
+        console.log(localStorage.getItem("deleteDisabled"))
+        deleteButton.disabled = true;
+        setTimeout(enableDeleteButton(), 10000)
+    }
+    
+}
+
+function enableDeleteButton() {
+    localStorage.setItem("deleteDisabled", "0");
+    deleteButton.disabled = false;
 }
 
 $('#clearDrawing').on('click', clearDrawing)
